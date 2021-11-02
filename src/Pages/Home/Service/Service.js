@@ -14,7 +14,7 @@ const Service = (props) => {
 
     return (
         <Grid item xs={2} sm={4} md={4}  >
-               <Card sx={{ minWidth: 275 }}>
+               <Card sx={{ minWidth: 275, border: 0, boxShadow: 0 }}>
                <CardMedia
         component="img"
         
@@ -23,21 +23,17 @@ const Service = (props) => {
         image={img}
       />
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Word of the Day
-        </Typography>
+        
         <Typography variant="h5" component="div">
          { name}
         </Typography>
        
-        <Typography variant="body2">
+        <Typography variant="body2" color="text.secondary" >
           {description}
           
         </Typography>
       </CardContent>
-      <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions>
+      
     </Card>
           </Grid>
     );
