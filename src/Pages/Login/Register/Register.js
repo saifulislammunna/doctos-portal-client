@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 
-import { Container, Grid, TextField, Typography,Button } from '@mui/material';
+import { Container, Grid, TextField, Typography,Button, CircularProgress ,Alert} from '@mui/material';
 import login  from '../../../images/login.png'; 
 import { NavLink } from 'react-router-dom';
-
+import useAuth from './../../../hooks/useAuth';
 
 const Register = () => {
      
 
     const [loginData, setLoginData] = useState({});
+
+    const {user, registerUser, isLoading, authError} = useAuth();
 
     const handleOnChange = e => {
         const field = e.target.name;
@@ -28,6 +30,7 @@ const Register = () => {
             return
             
         }
+        registerUser(loginData.email, loginData.password);
         e.preventDefault();
     }
 
@@ -36,7 +39,7 @@ const Register = () => {
            <Grid container spacing={2}>
          <Grid item sx={{mt: 8}} xs={12} md={6}>
          <Typography variant="body1" gutterBottom>Register</Typography>
-         <form onSubmit={handleLoginSubmit}>
+        {!isLoading && <form onSubmit={handleLoginSubmit}>
          <TextField 
            sx={{width: '75%', m:1}}
            id="standard-basic"
@@ -68,10 +71,14 @@ const Register = () => {
 
             </NavLink>
            <Button  sx={{width: '75%', m:1}} type="submit" variant="contained">Login</Button>
-         </form>
+         </form>}
+         {isLoading && <CircularProgress/>}
+         {user?.email && <Alert severity="success">User Created successfully!</Alert>}
+         {authError && <Alert severity="error"> {authError}</Alert>
+}
          </Grid>
          <Grid item xs={12} md={6}>
-             <img style={{width: '100%'}} src={login} alt="" />
+             <img style={{width: '100%'}} src={login} alt=""  />
          </Grid>
   
        </Grid>

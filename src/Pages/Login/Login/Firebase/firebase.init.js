@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import firebaseConfig from "./Firebase.config";
+import firebaseConfig from "./firebase.config";
 
 const initializeFirebase = () =>{
     initializeApp(firebaseConfig);
@@ -42,6 +42,16 @@ step 4: create auth context hook (useAuth)
 1. create a auth context
 2. Create a context Provider
 3. set context Provider context value
+4. use Auth Provider  in the app.js
+5. create useAuth Hook 
+ 
+---------------------------------
+
+step 5: create private route
+1. create private Route
+2. set private route
+
+---------------------------------
 
 
 */
