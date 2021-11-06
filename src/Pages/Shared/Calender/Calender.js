@@ -12,7 +12,7 @@ const Calendar = ({ date, setDate }) => {
             <StaticDatePicker
                 displayStaticWrapperAs="desktop"
                 value={date}
-                 
+               
                 onChange={(newValue) => {
                     setDate(newValue);
                 }}
