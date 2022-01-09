@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import initializeFirebase from "../Pages/Login/Login/Firebase/firebase.init";
-import { getAuth, createUserWithEmailAndPassword,signOut, onAuthStateChanged ,signInWithEmailAndPassword,GoogleAuthProvider,signInWithPopup, updateProfile} from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword,signOut, onAuthStateChanged ,signInWithEmailAndPassword,GoogleAuthProvider,signInWithPopup,getIdToken, updateProfile} from "firebase/auth";
  
 
 // initialize firebase app
@@ -13,6 +13,10 @@ const useFirebase = () => {
      const [isLoading, setIsLoading] = useState(true);
 
      const [authError, setAuthError] = useState('');
+
+     const [admin,setAdmin] = useState(false);
+
+     const [token,setToken] = useState('');
 
      const auth = getAuth();
      const googleProvider = new GoogleAuthProvider();
@@ -84,13 +88,25 @@ const useFirebase = () => {
         if (user) {
          
              setUser(user);
+             getIdToken(user)
+             .then(idToken => {
+
+                setToken(idToken);
+              //  console.log(idToken)
+             })
           } else {
             setUser({})
           }
           setIsLoading(false);
         });
         return () => unsubscribe;
-     },[])
+     },[auth])
+
+     useEffect(() => {
+       fetch(`https://rocky-woodland-69176.herokuapp.com/users/${user.email}`)
+       .then(res=>res.json())
+       .then(data=> setAdmin(data.admin))
+     },[user.email])
 
      const logout = () => {
       setIsLoading(true);
@@ -105,7 +121,7 @@ const useFirebase = () => {
 
      const saveUser = (email,displayName,method) => {
           const user = {email, displayName};
-          fetch('http://localhost:5000/users',{
+          fetch('https://rocky-woodland-69176.herokuapp.com/users',{
             method: method,
             headers: {
               'content-type': 'application/json'
@@ -117,6 +133,8 @@ const useFirebase = () => {
 
      return {
          user,
+         admin,
+         token,
          isLoading,
          authError,
          registerUser,
